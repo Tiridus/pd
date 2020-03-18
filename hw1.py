@@ -28,13 +28,14 @@ def poland_cases_by_date(day: int, month: int, year: int = 2020) -> int:
     :return: Number of cases on a given date as an integer
     """
     
-    # Your code goes here (remove pass)
-    pass
+def top5_countries_by_date(day, month, year = 2020):
+  result = confirmed_cases.groupby("Country/Region").sum().sort_values(by=[f"{month}/{day}/{year-2000}"], ascending=False).head(5)
+  return list(result.index)
 
 
-def top5_countries_by_date(day: int, month: int, year: int = 2020) -> List[str]:
-    """
-    Returns the top 5 infected countries given a date (confirmed cases).
+def poland_cases_by_date(day , month , year = 2020):
+  date=f"{month}/{day}/20"
+  return confirmed_cases.loc[confirmed_cases["Country/Region"]=="Poland"][date].values[0]
 
     Ex.
     >>> top5_countries_by_date(27, 2, 2020)
@@ -48,8 +49,9 @@ def top5_countries_by_date(day: int, month: int, year: int = 2020) -> List[str]:
     :return: A list of strings with the names of the coutires
     """
 
-    # Your code goes here (remove pass)
-    pass
+def top5_countries_by_date(day, month, year = 2020):
+  result = confirmed_cases.groupby("Country/Region").sum().sort_values(by=[f"{month}/{day}/{year-2000}"], ascending=False).head(5)
+  return list(result.index)
 
 # Function name is wrong, read the pydoc
 def no_new_cases_count(day: int, month: int, year: int = 2020) -> int:
@@ -69,5 +71,10 @@ def no_new_cases_count(day: int, month: int, year: int = 2020) -> int:
     :return: Number of countries/regions where the count has not changed in a day
     """
     
-    # Your code goes here (remove pass)
-    pass
+def new_cases_count(day, month, year = 2020):
+  d = datetime.date(year, month, day)
+  d1 = d - datetime.timedelta(days = 1)
+  d = d.strftime('%-m/%-d/%y')
+  d1 = d1.strftime('%-m/%-d/%y')
+  new = confirmed_cases.loc[confirmed_cases[d]-confirmed_cases[d1]!=0].count()[1]
+  return new
